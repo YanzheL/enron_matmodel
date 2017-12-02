@@ -32,6 +32,8 @@ with conn.cursor() as cursor:
     steps = dataset_size // batch_size + 1
     with open('data/enron_emails.pb', 'wb') as f:
         for i in range(steps):
+            if (i * batch_size > dataset_size):
+                break
             cursor.execute('''
                 SELECT messages.messageid,senderid as `from`, recipientid as `to`,messages.subject as `subject`,bodies.body
                 FROM messages,bodies,recipients
