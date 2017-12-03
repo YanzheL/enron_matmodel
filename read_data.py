@@ -3,7 +3,6 @@ from data_convert import pack_data
 
 
 def readobj(path, limit):
-    ct = 0
     with open(path, 'rb') as f:
         bs = f.read(4)
         while bs:
@@ -13,12 +12,11 @@ def readobj(path, limit):
             em = EmailPb2.Email()
             em.ParseFromString(f.read(size))
             yield em
-            ct += 1
             bs = f.read(4)
-    print(ct)
 
 
 def construct_no_dup(src, dst, limit):
+    ct = 0
     with open(dst, 'wb') as f:
         seen = set()
         for em in readobj(src, limit):
@@ -27,7 +25,9 @@ def construct_no_dup(src, dst, limit):
             if triple not in seen:
                 seen.add(triple)
                 f.write(pack_data(em))
+                ct += 1
+    return ct
 
 
 if __name__ == '__main__':
-    construct_no_dup('data/enron_emails.pb', 'data/enron_emails_uniq.pb', 0)
+    print(construct_no_dup('data/enron_emails.pb', 'data/enron_emails_uniq.pb', 0))
