@@ -1,8 +1,9 @@
-import tensorflow as tf
 import os
-import inference
 
-from tensorflow.examples.tutorials.mnist import input_data
+import tensorflow as tf
+
+import inference
+# from tensorflow.examples.tutorials.mnist import input_data
 from data_provider import DataSet
 
 BATCH_SIZE = 100

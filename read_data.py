@@ -1,6 +1,6 @@
-import proto_files.compiled.Email_pb2 as EmailPb2
-
 from collections import defaultdict
+
+import proto_files.compiled.Email_pb2 as EmailPb2
 
 
 def pack_date(email):

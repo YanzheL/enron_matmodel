@@ -6,13 +6,26 @@ from gensim.models.doc2vec import *
 from nltk.corpus import stopwords
 from six import iteritems
 
-from data_provider import FilteredData
-from data_provider import readobj
+from read_data import readobj
 from settings import *
 
 
+class FTData:
+    stopwds = set(stopwords.words('english'))
+
+    def __init__(self, path):
+        self.gener = readobj(path, 0)
+
+    def __iter__(self):
+        for em in self.gener:
+            yield [
+                [w for w in filter(lambda w: w not in self.stopwds, st.lower().split())]
+                for st in em.body
+            ]
+
+
 def gendict(pbpath, dst):
-    docs = itertools.chain.from_iterable(FilteredData(pbpath))
+    docs = itertools.chain.from_iterable(FTData(pbpath))
     # print(docs)
     dictionary = corpora.Dictionary(docs)
     once_ids = [tokenid for tokenid, docfreq in iteritems(dictionary.dfs) if docfreq == 1]
@@ -23,7 +36,7 @@ def gendict(pbpath, dst):
 def gencorpus(pbpath, dictpath, dst):
     dictionary = corpora.Dictionary.load(dictpath)
     corpus = [
-        dictionary.doc2bow(w) for s in FilteredData(pbpath) for w in s
+        dictionary.doc2bow(w) for s in FTData(pbpath) for w in s
     ]
     # pprint(corpus)
     corpora.MmCorpus.serialize(dst, corpus)

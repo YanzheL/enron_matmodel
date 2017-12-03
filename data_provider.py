@@ -1,27 +1,11 @@
-from read_data import readobj
-from gensim import corpora, models, similarities
-from gensim.models.doc2vec import Doc2Vec
-from nltk.corpus import stopwords
-from collections import defaultdict
-from gensim.models.doc2vec import *
-from settings import *
-from prepare_models import Embedding
 import scipy as np
+from gensim.models.doc2vec import *
+from nltk.corpus import stopwords
+
 from inference import OUTPUT_NODE, INPUT_NODE
-
-
-class FilteredData:
-    stopwds = set(stopwords.words('english'))
-
-    def __init__(self, path):
-        self.gener = readobj(path, 0)
-
-    def __iter__(self):
-        for em in self.gener:
-            yield [
-                [w for w in filter(lambda w: w not in self.stopwds, st.lower().split())]
-                for st in em.body
-            ]
+from prepare_models import Embedding
+from read_data import readobj
+from settings import *
 
 
 class DataSet(object):
