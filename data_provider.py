@@ -41,4 +41,5 @@ class DataSet(object):
             ys.append(label)
             print(x.shape)
 
+        print(len(xs))
         return xs, ys
