@@ -23,10 +23,11 @@ sess_config = tf.ConfigProto(
     allow_soft_placement=True
 )
 
-server = tf.train.Server.create_local_server(config=sess_config)
+# server = tf.train.Server.create_local_server(config=sess_config)
 
 session_opts = {
-    'target': server.target,
+    # 'target': server.target,
+    'config': sess_config
 }
 
 
@@ -60,6 +61,7 @@ def train(datasource):
             xs, ys = datasource.next_batch(BATCH_SIZE)
             if xs.shape != (100, 400):
                 print(xs)
+                continue
             _, loss_value, step = sess.run([train_op, loss, global_step], feed_dict={x: xs, y_: ys})
             if i % 1000 == 0:
                 print("After %d training step(s), loss on training batch is %g." % (step, loss_value))
