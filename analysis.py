@@ -12,17 +12,21 @@ LEARNING_RATE_DECAY = 0.99
 REGULARIZATION_RATE = 0.0001
 TRAINING_STEPS = 30000
 MOVING_AVERAGE_DECAY = 0.99
-MODEL_SAVE_PATH = "model/"
+MODEL_SAVE_PATH = "model/tensorflow"
 MODEL_NAME = "tensorflow_model.ckpt"
 
+sess_config = tf.ConfigProto(
+    gpu_options=tf.GPUOptions(
+        per_process_gpu_memory_fraction=0.3
+    ),
+    log_device_placement=True,
+    allow_soft_placement=True
+)
+
+server = tf.train.Server.create_local_server(config=sess_config)
+
 session_opts = {
-    'config': tf.ConfigProto(
-        gpu_options=tf.GPUOptions(
-            per_process_gpu_memory_fraction=0.3
-        ),
-        log_device_placement=True,
-        allow_soft_placement=True
-    )
+    'target': server.target,
 }
 
 
@@ -54,7 +58,7 @@ def train(datasource):
 
         for i in range(TRAINING_STEPS):
             xs, ys = datasource.next_batch(BATCH_SIZE)
-            print(xs.shape)
+            # print(xs.shape)
             _, loss_value, step = sess.run([train_op, loss, global_step], feed_dict={x: xs, y_: ys})
             if i % 1000 == 0:
                 print("After %d training step(s), loss on training batch is %g." % (step, loss_value))
@@ -62,6 +66,8 @@ def train(datasource):
 
 
 def main(argv=None):
+    if not os.path.exists(MODEL_SAVE_PATH):
+        os.makedirs(MODEL_SAVE_PATH)
     datasource = DataSet()
     # datasource = input_data.read_data_sets("../../../datasets/MNIST_data", one_hot=True)
     train(datasource)
