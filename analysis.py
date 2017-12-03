@@ -43,7 +43,7 @@ def train(datasource):
         'activation_fn': tf.nn.relu,
         'normalizer_fn': None,
         'normalizer_params': None,
-        'weights_initializer': tf.global_variables_initializer(),
+        'weights_initializer': tf.contrib.layers.xavier_initializer(),
         'weights_regularizer': regularizer,
         'biases_initializer': tf.zeros_initializer(),
         'biases_regularizer': None,
