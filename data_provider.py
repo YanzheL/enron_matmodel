@@ -35,7 +35,7 @@ class DataSet(object):
             x = Embedding.getVec(self.vecmodel, lbs, INPUT_NODE)
             id = lbs.tags[0]
             if int(id) < OUTPUT_NODE:
-                label[id] = 1.
+                label[int(id)] = 1.
             xs.append(x)
             ys.append(label)
 
