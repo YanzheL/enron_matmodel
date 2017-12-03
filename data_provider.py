@@ -25,7 +25,6 @@ class DataSet(object):
         return self._vecmodel
 
     def next_batch(self, batch_size):
-
         xs = None
         ys = None
         for i, lbs in enumerate(Embedding.getLabeledSentence(self.gener)):
@@ -33,14 +32,9 @@ class DataSet(object):
                 break
             label = np.zeros((1, OUTPUT_NODE), dtype=float)
             x = Embedding.getVec(self.vecmodel, lbs, INPUT_NODE)
-
             id = lbs.tags[0]
-            # print(id)
             if int(id) < OUTPUT_NODE:
                 label[0, int(id)] = 1.
             xs = np.concatenate((xs, x)) if xs is not None else x
             ys = np.concatenate((ys, label)) if ys is not None else label
-            # print(x.shape)
-
-        # print(len(xs))
         return xs, ys

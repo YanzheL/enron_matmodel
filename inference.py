@@ -1,12 +1,10 @@
 import tensorflow as tf
-from tensorflow.contrib.layers import fully_connected
-from functools import partial
 
 INPUT_NODE = 400
 
-# OUTPUT_NODE = 87474
+OUTPUT_NODE = 87474
 
-OUTPUT_NODE = 10000
+# OUTPUT_NODE = 10000
 
 LAYER_NODE = 10
 
@@ -28,7 +26,6 @@ def inference_multi(input_tensor, regularizer, num):
                 regularizer)
             biases = tf.get_variable("biases", [out_node], initializer=tf.zeros_initializer())
             layer = tf.nn.relu(tf.matmul(input_tensor, weights) + biases)
-
     return layer
 
 

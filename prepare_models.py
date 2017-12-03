@@ -1,4 +1,5 @@
 import itertools
+from time import time
 
 import scipy as np
 from gensim import corpora, models
@@ -8,7 +9,6 @@ from six import iteritems
 
 from read_data import readobj
 from settings import *
-from time import time
 
 
 class FTData:
