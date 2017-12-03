@@ -39,6 +39,6 @@ class DataSet(object):
                 label[0, int(id)] = 1.
             xs.append(x)
             ys.append(label)
-            print(x.shape())
+            print(x.shape)
 
         return xs, ys
