@@ -38,7 +38,7 @@ def convert(path, batch_size, limit):
         dataset_size = 0
         for d in cursor.fetchall():
             dataset_size = d['dataset_size']
-        # print(dataset_size)
+        print(dataset_size)
         steps = dataset_size // batch_size + 1
 
         doc_count = 0
@@ -74,7 +74,8 @@ def convert(path, batch_size, limit):
                             setattr(email, k, doc[k])
                     f.write(pack_data(email))
                     doc_count += 1
+    return doc_count
 
 
 if __name__ == '__main__':
-    convert('data/enron_emails.pb', 10000, 0)
+    print(convert('data/enron_emails.pb', 10000, 0))
