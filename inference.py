@@ -1,10 +1,12 @@
 import tensorflow as tf
+from tensorflow.contrib.layers import fully_connected
+from functools import partial
 
 INPUT_NODE = 400
 
 # OUTPUT_NODE = 87474
 
-OUTPUT_NODE = 40000
+OUTPUT_NODE = 10000
 
 LAYER_NODE = 5
 
@@ -28,6 +30,38 @@ def inference_multi(input_tensor, regularizer, num):
             layer = tf.nn.relu(tf.matmul(input_tensor, weights) + biases)
 
     return layer
+
+
+def make_layer(inputs, layer_num, out_num, **kwargs):
+    func = partial(fully_connected, **kwargs)
+    y = inputs
+    for i in range(layer_num):
+        y = func(y, out_num)
+
+    return y
+
+    # fully_connected(
+    #     input_tensor=inputs,
+    #     num_outputs=out_num,
+    #     **kwargs
+    # )
+
+    # fully_connected(
+    #     input_tensor,
+    #     num_outputs,
+    #     activation_fn=tf.nn.relu,
+    #     normalizer_fn=None,
+    #     normalizer_params=None,
+    #     weights_initializer=initializers.xavier_initializer(),
+    #     weights_regularizer=None,
+    #     biases_initializer=tf.zeros_initializer(),
+    #     biases_regularizer=None,
+    #     reuse=None,
+    #     variables_collections=None,
+    #     outputs_collections=None,
+    #     trainable=True,
+    #     scope=None
+    # )
 
 
 def inference(input_tensor, regularizer):

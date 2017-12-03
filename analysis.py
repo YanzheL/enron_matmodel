@@ -36,7 +36,27 @@ def train(datasource):
     y_ = tf.placeholder(tf.float32, [None, inference.OUTPUT_NODE], name='y-input')
 
     regularizer = tf.contrib.layers.l2_regularizer(REGULARIZATION_RATE)
-    y = inference.inference(x, regularizer)
+
+    # y = inference.inference(x, regularizer)
+
+    layer_define = {
+        'activation_fn': tf.nn.relu,
+        'normalizer_fn': None,
+        'normalizer_params': None,
+        'weights_initializer': tf.global_variables_initializer(),
+        'weights_regularizer': regularizer,
+        'biases_initializer': tf.zeros_initializer,
+        'biases_regularizer': None,
+        'reuse': None,
+        'variables_collections': None,
+        'outputs_collections': None,
+        'trainable': True,
+        'scope': None
+    }
+
+    y_last = inference.make_layer(x, 3, inference.LAYER_NODE, **layer_define)
+    y = inference.make_layer(y, 1, inference.OUTPUT_NODE, **layer_define)
+
     global_step = tf.Variable(0, trainable=False)
 
     variable_averages = tf.train.ExponentialMovingAverage(MOVING_AVERAGE_DECAY, global_step)
