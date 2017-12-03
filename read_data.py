@@ -51,7 +51,7 @@ def classify_by_sender(src, dst, limit, train_data_percent):
                 size = len(ems)
                 div = int(size * train_data_percent)
                 for i in range(size):
-                    if i <= div:
+                    if size == 1 or i < div:
                         ft.write(pack_data(ems[i]))
                     else:
                         fv.write(pack_data(ems[i]))
