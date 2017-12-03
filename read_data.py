@@ -58,5 +58,23 @@ def classify_by_sender(src, dst, limit, train_data_percent):
     return ct
 
 
+def construct_dataset(src, dst, limit, train_num):
+    ct = 0
+    seen = set()
+    with open(dst % 'train', 'wb') as ft:
+        with open(dst % 'validate', 'wb') as fv:
+            for em in readobj(src, limit):
+                spec = int(em.messageid), int(em.sender)
+                if spec not in seen:
+                    # print(triple)
+                    seen.add(spec)
+                    ct += 1
+                    if ct <= train_num:
+                        ft.write(pack_data(em))
+                    else:
+                        fv.write(pack_data(em))
+    return ct
+
+
 if __name__ == '__main__':
-    print(classify_by_sender('data/enron_emails.pb', 'data/by_people/%s_%d.pb', 0, 0.9))
+    print(construct_dataset('data/enron_emails.pb', 'data/%s.pb', 0, 240000))
