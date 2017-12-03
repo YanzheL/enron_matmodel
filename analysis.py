@@ -37,25 +37,7 @@ def train(datasource):
 
     regularizer = tf.contrib.layers.l2_regularizer(REGULARIZATION_RATE)
 
-    # y = inference.inference(x, regularizer)
-
-    layer_define = {
-        'activation_fn': tf.nn.relu,
-        'normalizer_fn': None,
-        'normalizer_params': None,
-        'weights_initializer': tf.contrib.layers.xavier_initializer(),
-        'weights_regularizer': regularizer,
-        'biases_initializer': tf.zeros_initializer(),
-        'biases_regularizer': None,
-        'reuse': None,
-        'variables_collections': None,
-        'outputs_collections': None,
-        'trainable': True,
-        'scope': None
-    }
-
-    y_last = inference.make_layer(x, 2, inference.LAYER_NODE, **layer_define)
-    y = inference.make_layer(y_last, 1, inference.OUTPUT_NODE, **layer_define)
+    y = inference.inference(x, regularizer)
 
     global_step = tf.Variable(0, trainable=False)
 
