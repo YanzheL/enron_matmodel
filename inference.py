@@ -8,7 +8,7 @@ INPUT_NODE = 400
 
 OUTPUT_NODE = 10000
 
-LAYER_NODE = 5
+LAYER_NODE = 10
 
 
 def get_weight_variable(shape, regularizer):

@@ -79,7 +79,7 @@ def train(datasource):
 
         for i in range(TRAINING_STEPS):
             xs, ys = datasource.next_batch(BATCH_SIZE)
-            if xs.shape != (100, 400):
+            if xs is None or len(xs.shape) != 2:
                 print(xs)
                 continue
             _, loss_value, step = sess.run([train_op, loss, global_step], feed_dict={x: xs, y_: ys})
