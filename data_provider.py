@@ -29,14 +29,13 @@ class DataSet(object):
 
         texts = [
             [token for token in text if frequency[token] > 1]
-                 for text in texts
+            for text in texts
         ]
         dictionary = corpora.Dictionary(texts)
         corpus = [dictionary.doc2bow(text) for text in texts]
 
         tfidf = models.TfidfModel(corpus)
         corpus_tfidf = tfidf[corpus]
-
 
     def filter_stopwds(self, s):
         return ''.join([w for w in s.split().lower() if w not in self.stopwds])

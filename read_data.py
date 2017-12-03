@@ -1,6 +1,10 @@
 import proto_files.compiled.Email_pb2 as EmailPb2
-from data_convert import pack_data
+
 from collections import defaultdict
+
+
+def pack_date(email):
+    return (email.ByteSize()).to_bytes(4, byteorder='little', signed=False) + email.SerializeToString()
 
 
 def readobj(path, limit):
