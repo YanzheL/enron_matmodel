@@ -19,7 +19,7 @@ sess_config = tf.ConfigProto(
     gpu_options=tf.GPUOptions(
         per_process_gpu_memory_fraction=0.3
     ),
-    log_device_placement=True,
+    log_device_placement=False,
     allow_soft_placement=True
 )
 
@@ -58,7 +58,7 @@ def train(datasource):
 
         for i in range(TRAINING_STEPS):
             xs, ys = datasource.next_batch(BATCH_SIZE)
-            # print(xs.shape)
+            print(xs.shape)
             _, loss_value, step = sess.run([train_op, loss, global_step], feed_dict={x: xs, y_: ys})
             if i % 1000 == 0:
                 print("After %d training step(s), loss on training batch is %g." % (step, loss_value))
