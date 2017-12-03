@@ -4,6 +4,7 @@ from data_convert import pack_data
 
 def readobj(path, limit):
     with open(path, 'rb') as f:
+        ct = 0
         bs = f.read(4)
         while bs:
             if limit != 0 and ct >= limit:
@@ -12,6 +13,7 @@ def readobj(path, limit):
             em = EmailPb2.Email()
             em.ParseFromString(f.read(size))
             yield em
+            ct += 1
             bs = f.read(4)
 
 
