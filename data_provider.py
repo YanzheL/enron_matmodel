@@ -34,12 +34,12 @@ class DataSet(object):
             label = np.zeros((1, OUTPUT_NODE), dtype=float)
             x = Embedding.getVec(self.vecmodel, lbs, INPUT_NODE)
             id = lbs.tags[0]
-            print(id)
+            # print(id)
             if int(id) < OUTPUT_NODE:
                 label[0, int(id)] = 1.
             xs.append(x)
             ys.append(label)
-            print(x.shape)
+            # print(x.shape)
 
         # print(len(xs))
         return np.array(xs).reshape(batch_size, 1, INPUT_NODE), ys

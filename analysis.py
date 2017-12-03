@@ -54,6 +54,7 @@ def train(datasource):
 
         for i in range(TRAINING_STEPS):
             xs, ys = datasource.next_batch(BATCH_SIZE)
+            print(xs.shape)
             _, loss_value, step = sess.run([train_op, loss, global_step], feed_dict={x: xs, y_: ys})
             if i % 1000 == 0:
                 print("After %d training step(s), loss on training batch is %g." % (step, loss_value))
