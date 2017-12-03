@@ -22,7 +22,7 @@ def construct_no_dup(src, dst, limit):
     with open(dst, 'wb') as f:
         seen = set()
         for em in readobj(src, limit):
-            print(em)
+            # print(em)
             triple = em.messageid, getattr(em, 'from'), em.to
             if triple not in seen:
                 seen.add(triple)
