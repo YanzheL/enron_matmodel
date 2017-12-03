@@ -21,7 +21,7 @@ class DataSet(object):
         return self._num_examples
 
     @property
-    def vecmodelel(self):
+    def vecmodel(self):
         return self._vecmodel
 
     def next_batch(self, batch_size):
@@ -32,11 +32,11 @@ class DataSet(object):
             if i >= batch_size:
                 break
             label = np.zeros((1, OUTPUT_NODE), dtype=float)
-            x = Embedding.getVec(self.vecmodelel, lbs, INPUT_NODE)
+            x = Embedding.getVec(self.vecmodel, lbs, INPUT_NODE)
             id = lbs.tags[0]
-            if id < OUTPUT_NODE:
+            if int(id) < OUTPUT_NODE:
                 label[id] = 1.
             xs.append(x)
             ys.append(label)
 
-        return xs,ys
+        return xs, ys
