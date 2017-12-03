@@ -1,6 +1,6 @@
 import proto_files.compiled.Email_pb2 as EmailPb2
 from data_convert import pack_data
-
+from collections import defaultdict
 
 def readobj(path, limit):
     with open(path, 'rb') as f:
@@ -34,7 +34,7 @@ def construct_no_dup(src, dst, limit):
 
 def classify_by_sender(src, dst, limit):
     ct = 0
-    data = {}
+    data = defaultdict(list)
     seen = set()
     for em in readobj(src, limit):
         # print(em)
@@ -42,11 +42,12 @@ def classify_by_sender(src, dst, limit):
         if spec not in seen:
             # print(triple)
             seen.add(spec)
-            data[spec[1]] = em
+            data[spec[1]].append(em)
             ct += 1
-    for k, v in data.items():
+    for k, ems in data.items():
         with open(dst % k, 'wb') as f:
-            f.write(pack_data(v))
+            for em in ems:
+                f.write(pack_data(em))
 
     return ct
 
