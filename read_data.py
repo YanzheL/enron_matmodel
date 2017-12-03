@@ -7,7 +7,7 @@ def pack_date(email):
     return (email.ByteSize()).to_bytes(4, byteorder='little', signed=False) + email.SerializeToString()
 
 
-def readobj(path, limit):
+def readobj(path, limit=0):
     with open(path, 'rb') as f:
         ct = 0
         bs = f.read(4)
@@ -22,7 +22,7 @@ def readobj(path, limit):
             bs = f.read(4)
 
 
-def construct_no_dup(src, dst, limit):
+def construct_no_dup(src, dst, limit=0):
     ct = 0
     with open(dst, 'wb') as f:
         seen = set()
