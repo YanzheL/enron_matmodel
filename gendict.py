@@ -9,8 +9,8 @@ from six import iteritems
 class IterCorpus:
     stopwds = set(stopwords.words('english'))
 
-    def __init__(self):
-        self.gener = readobj('data/train.pb', 0)
+    def __init__(self, path):
+        self.gener = readobj(path, 0)
 
     def __iter__(self):
         for em in self.gener:
@@ -27,7 +27,7 @@ class IterCorpus:
 
 
 if __name__ == '__main__':
-    corpus = IterCorpus()
+    corpus = IterCorpus('data/train.pb')
 
     dictionary = corpora.Dictionary(corpus)
 
