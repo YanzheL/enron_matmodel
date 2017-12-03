@@ -28,6 +28,10 @@ def contains_alpha(s):
     return re.match(r'.*[a-zA-Z0-9]+', s)
 
 
+def pack_data(email):
+    return (email.ByteSize()).to_bytes(4, byteorder='little', signed=False) + email.SerializeToString()
+
+
 with conn.cursor() as cursor:
     steps = dataset_size // batch_size + 1
     with open('data/enron_emails.pb', 'wb') as f:
@@ -65,9 +69,8 @@ with conn.cursor() as cursor:
                         setattr(email, k, doc[k])
                 # print(email)
                 # f.writelines()
-                compiled_data = email.SerializeToString()
-                bin_size = email.ByteSize()
-                d = (bin_size).to_bytes(4, byteorder='little', signed=False) + compiled_data
+
+                d = pack_data(email)
                 # print(bin_size)
                 # print(hex(bin_size))
                 # print(d)
