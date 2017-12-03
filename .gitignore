@@ -197,3 +197,4 @@ gen### Python template
 # mkdocs documentation
 
 # mypy
+/data/by_people/

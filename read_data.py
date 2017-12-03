@@ -2,6 +2,7 @@ import proto_files.compiled.Email_pb2 as EmailPb2
 from data_convert import pack_data
 from collections import defaultdict
 
+
 def readobj(path, limit):
     with open(path, 'rb') as f:
         ct = 0
@@ -32,7 +33,7 @@ def construct_no_dup(src, dst, limit):
     return ct
 
 
-def classify_by_sender(src, dst, limit):
+def classify_by_sender(src, dst, limit, train_data_percent):
     ct = 0
     data = defaultdict(list)
     seen = set()
@@ -45,12 +46,17 @@ def classify_by_sender(src, dst, limit):
             data[spec[1]].append(em)
             ct += 1
     for k, ems in data.items():
-        with open(dst % k, 'wb') as f:
-            for em in ems:
-                f.write(pack_data(em))
-
+        with open(dst % ('train', k), 'wb') as ft:
+            with open(dst % ('validate', k), 'wb') as fv:
+                size = len(ems)
+                div = int(size * train_data_percent)
+                for i in range(size):
+                    if i <= div:
+                        ft.write(pack_data(ems[i]))
+                    else:
+                        fv.write(pack_data(ems[i]))
     return ct
 
 
 if __name__ == '__main__':
-    print(classify_by_sender('data/enron_emails.pb', 'data/by_people_%d.pb', 0))
+    print(classify_by_sender('data/enron_emails.pb', 'data/by_people/%s_%d.pb', 0, 0.9))
