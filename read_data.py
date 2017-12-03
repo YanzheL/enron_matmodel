@@ -32,5 +32,22 @@ def construct_no_dup(src, dst, limit):
     return ct
 
 
+def classify_by_sender(src, dst, limit):
+    ct = 0
+    data = {}
+    seen = set()
+    for em in readobj(src, limit):
+        # print(em)
+        spec = int(em.messageid), int(em.sender)
+        if spec not in seen:
+            # print(triple)
+            seen.add(spec)
+            data[spec[1]] = em
+            ct += 1
+    print(data.keys())
+
+    return ct
+
+
 if __name__ == '__main__':
-    print(construct_no_dup('data/enron_emails.pb', 'data/enron_emails_uniq.pb', 0))
+    print(classify_by_sender('data/enron_emails.pb', 'data/by_people', 0))
