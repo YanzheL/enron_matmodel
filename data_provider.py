@@ -38,8 +38,8 @@ class DataSet(object):
             # print(id)
             if int(id) < OUTPUT_NODE:
                 label[0, int(id)] = 1.
-            xs = np.concatenate((xs, x)) if xs else x
-            ys = np.concatenate((ys, label)) if ys else label
+            xs = np.concatenate((xs, x)) if xs is not None else x
+            ys = np.concatenate((ys, label)) if ys is not None else label
             # print(x.shape)
 
         # print(len(xs))
