@@ -8,6 +8,7 @@ from six import iteritems
 
 from read_data import readobj
 from settings import *
+from time import time
 
 
 class FTData:
@@ -55,7 +56,7 @@ class Embedding(object):
     def __init__(self, path):
         self.gener = readobj(path, 0)
         self.model = Doc2Vec(min_count=1, window=10, size=400, alpha=0.025, min_alpha=0.001, sample=1e-3, negative=5,
-                             workers=8)
+                             workers=24)
         self.num_examples = 240000
 
     @staticmethod
@@ -96,7 +97,9 @@ if __name__ == '__main__':
     gen_tfidf_model(model_settings['corpus'], model_settings['tfidf'])
 
     emb = Embedding(settings['data'])
+    t1 = time()
     emb.train(save_path=model_settings['wordvec'])
+    print("Time used = %d\n" % (time() - t1))
     # model = Word2Vec.load(model_settings['wordvec'])
     # vecs = getVecs(model, Embedding.getLabeledSentence(readobj(settings['data'])), 400)
     # print(vecs[0:5])
