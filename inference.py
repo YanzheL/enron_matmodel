@@ -1,10 +1,12 @@
 import tensorflow as tf
 
-INPUT_NODE = 200
+INPUT_NODE = 400
 
-OUTPUT_NODE = 87474
+# OUTPUT_NODE = 87474
 
-LAYER_NODE = 10
+OUTPUT_NODE = 10000
+
+LAYER_NODE = 5
 
 
 def get_weight_variable(shape, regularizer):

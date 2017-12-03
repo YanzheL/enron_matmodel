@@ -199,3 +199,4 @@ gen### Python template
 # mypy
 /data/by_people/
 /model/*
+/model.tar.gz

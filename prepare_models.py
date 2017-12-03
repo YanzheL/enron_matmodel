@@ -61,6 +61,10 @@ class Embedding(object):
     def getVecs(model, corpus, size):
         return np.concatenate(np.array(model.docvecs[z.tags[0]]).reshape((1, size)) for z in corpus)
 
+    @staticmethod
+    def getVec(model, doc, size):
+        return np.array(model.docvecs[doc.tags[0]]).reshape((1, size))
+
     def train(self, epoch_num=50, save_path=None):
         sentences = self.getLabeledSentence(self.gener)
         # 使用所有的数据建立词典
