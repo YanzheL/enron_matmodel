@@ -41,5 +41,5 @@ class DataSet(object):
             ys.append(label)
             print(x.shape)
 
-        print(len(xs))
-        return xs, ys
+        # print(len(xs))
+        return np.array(xs).reshape(batch_size, 1, INPUT_NODE), ys
