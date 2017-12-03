@@ -33,10 +33,9 @@ def inference_multi(input_tensor, regularizer, num):
 
 
 def make_layer(inputs, layer_num, out_num, **kwargs):
-    # y = inputs
-    # for i in range(layer_num):
-    y = fully_connected(inputs, out_num, **kwargs)
-
+    y = inputs
+    for i in range(layer_num):
+        y = fully_connected(y, out_num, **kwargs)
     return y
 
     # fully_connected(

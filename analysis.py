@@ -54,8 +54,8 @@ def train(datasource):
         'scope': None
     }
 
-    y_last = inference.make_layer(x, 3, inference.LAYER_NODE, **layer_define)
-    y = inference.make_layer(y, 1, inference.OUTPUT_NODE, **layer_define)
+    y_last = inference.make_layer(x, 2, inference.LAYER_NODE, **layer_define)
+    y = inference.make_layer(y_last, 1, inference.OUTPUT_NODE, **layer_define)
 
     global_step = tf.Variable(0, trainable=False)
 
