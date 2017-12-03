@@ -44,10 +44,12 @@ def classify_by_sender(src, dst, limit):
             seen.add(spec)
             data[spec[1]] = em
             ct += 1
-    print(data.keys())
+    for k, v in data.items():
+        with open(dst % k, 'wb') as f:
+            f.write(pack_data(v))
 
     return ct
 
 
 if __name__ == '__main__':
-    print(classify_by_sender('data/enron_emails.pb', 'data/by_people', 0))
+    print(classify_by_sender('data/enron_emails.pb', 'data/by_people_%d.pb', 0))
