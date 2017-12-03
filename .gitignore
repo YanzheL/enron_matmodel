@@ -138,7 +138,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-/data/*.pb
+/data/*
 ### macOS template
 # General
 
