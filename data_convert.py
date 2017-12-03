@@ -77,4 +77,4 @@ def convert(path, batch_size, limit):
 
 
 if __name__ == '__main__':
-    convert('data/enron_emails.pb', 1000, 0)
+    convert('data/enron_emails.pb', 10000, 0)
