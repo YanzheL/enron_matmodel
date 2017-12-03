@@ -138,4 +138,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-/data/enron_emails.pb
+/data/*.pb
