@@ -4,8 +4,8 @@ package enron;
 
 message Email {
     double messageid = 1;
-    double from = 2;
-    double to = 3;
+    double sender = 2;
+    double recipient = 3;
     string subject = 4;
     repeated string body = 5;
 }

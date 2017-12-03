@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='Email.proto',
   package='enron',
   syntax='proto3',
-  serialized_pb=_b('\n\x0b\x45mail.proto\x12\x05\x65nron\"S\n\x05\x45mail\x12\x11\n\tmessageid\x18\x01 \x01(\x01\x12\x0c\n\x04\x66rom\x18\x02 \x01(\x01\x12\n\n\x02to\x18\x03 \x01(\x01\x12\x0f\n\x07subject\x18\x04 \x01(\t\x12\x0c\n\x04\x62ody\x18\x05 \x03(\tb\x06proto3')
+  serialized_pb=_b('\n\x0b\x45mail.proto\x12\x05\x65nron\"\\\n\x05\x45mail\x12\x11\n\tmessageid\x18\x01 \x01(\x01\x12\x0e\n\x06sender\x18\x02 \x01(\x01\x12\x11\n\trecipient\x18\x03 \x01(\x01\x12\x0f\n\x07subject\x18\x04 \x01(\t\x12\x0c\n\x04\x62ody\x18\x05 \x03(\tb\x06proto3')
 )
 
 
@@ -40,14 +40,14 @@ _EMAIL = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='from', full_name='enron.Email.from', index=1,
+      name='sender', full_name='enron.Email.sender', index=1,
       number=2, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='to', full_name='enron.Email.to', index=2,
+      name='recipient', full_name='enron.Email.recipient', index=2,
       number=3, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
@@ -80,7 +80,7 @@ _EMAIL = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=22,
-  serialized_end=105,
+  serialized_end=114,
 )
 
 DESCRIPTOR.message_types_by_name['Email'] = _EMAIL

@@ -14,7 +14,7 @@ def pack_data(email):
     return (email.ByteSize()).to_bytes(4, byteorder='little', signed=False) + email.SerializeToString()
 
 
-def convert(path):
+def convert(path, batch_size, limit):
     conn = connect(
         host='hk1.lee-service.com',
         user='mathteam',
@@ -24,30 +24,38 @@ def convert(path):
         cursorclass=cursors.DictCursor
     )
 
-    dataset_size = 255636
+    main_sql = '''
+        SELECT messages.messageid,senderid as `sender`, recipientid as `recipient`,messages.subject as `subject`,bodies.body
+        FROM messages,bodies,recipients
+        WHERE messages.messageid=bodies.messageid AND messages.messageid=recipients.messageid
+        ORDER BY messages.messageid
+        '''
 
     # dataset_size = 25
 
-    batch_size = 500
-
     with conn.cursor() as cursor:
+        cursor.execute('SELECT COUNT(*) AS dataset_size FROM (%s) AS T' % main_sql)
+        dataset_size = 0
+        for d in cursor.fetchall():
+            dataset_size = d['dataset_size']
+        # print(dataset_size)
         steps = dataset_size // batch_size + 1
+
+        doc_count = 0
+
         with open(path, 'wb') as f:
             for i in range(steps):
-                if (i * batch_size > dataset_size):
+                if limit != 0 and doc_count >= limit:
                     break
-                cursor.execute('''
-                    SELECT messages.messageid,senderid as `from`, recipientid as `to`,messages.subject as `subject`,bodies.body
-                    FROM messages,bodies,recipients
-                    WHERE messages.messageid=bodies.messageid AND messages.messageid=recipients.messageid
-                    ORDER BY messages.messageid
-                    LIMIT %d,%d
-                    ''' % (i * batch_size, batch_size))
+                if i * batch_size > dataset_size:
+                    break
+                query = main_sql + ('LIMIT %d,%d' % (i * batch_size, batch_size))
+                # print(query)
+                cursor.execute(query)
                 for doc in cursor.fetchall():
                     # print("|".center(200, '-'))
                     if not doc['subject']:
                         doc['subject'] = 'NONE'
-                    # print("SUBJECT %s" % doc['subject'])
                     body = []
                     for line in doc['body'].splitlines():
                         if line.find('---') != -1:
@@ -56,7 +64,6 @@ def convert(path):
                     body = ''.join(body)
                     # print(body)
                     sent_tks = [s for s in sent_tokenize(body) if contains_alpha(s)]
-
                     # print(sent_tks)
                     email = EmailPb2.Email()
                     doc['body'] = body
@@ -65,15 +72,9 @@ def convert(path):
                             email.body.extend(sent_tks)
                         else:
                             setattr(email, k, doc[k])
-                    # print(email)
-                    # f.writelines()
-
-                    d = pack_data(email)
-                    # print(bin_size)
-                    # print(hex(bin_size))
-                    # print(d)
-                    f.write(d)
+                    f.write(pack_data(email))
+                    doc_count += 1
 
 
 if __name__ == '__main__':
-    convert('data/enron_emails.pb')
+    convert('data/enron_emails.pb', 1000, 0)
