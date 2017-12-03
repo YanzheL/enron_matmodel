@@ -72,7 +72,7 @@ class Embedding(object):
 
 
 if __name__ == '__main__':
-    settings = SETTINGS['validate']
+    settings = SETTINGS['train']
     model_settings = settings['model']
     gendict(settings['data'], model_settings['dict'])
     gencorpus(settings['data'], model_settings['dict'], model_settings['corpus'])
