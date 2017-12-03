@@ -20,7 +20,7 @@ session_opts = {
         gpu_options=tf.GPUOptions(
             per_process_gpu_memory_fraction=0.3
         ),
-        log_device_placement=False,
+        log_device_placement=True,
         allow_soft_placement=True
     )
 }
